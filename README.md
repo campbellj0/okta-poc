@@ -21,3 +21,7 @@ https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/containers/ac
 
 Hosting ASP.NET Core images with Docker over HTTPS
 https://docs.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-3.1
+
+Hosting ASP.NET Core images with Docker Compose over HTTPS
+https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-3.1
+
