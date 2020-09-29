@@ -18,3 +18,6 @@ https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-rm-template
 
 DevOps: Build and push to Azure Container Registry
 https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/containers/acr-template?view=azure-devops
+
+Hosting ASP.NET Core images with Docker over HTTPS
+https://docs.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-3.1
