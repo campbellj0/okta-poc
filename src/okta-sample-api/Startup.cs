@@ -44,26 +44,26 @@ namespace WebApi
             //use this portion to require authentication for everything
             services.AddMvc(o =>
             {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                o.Filters.Add(new AuthorizeFilter(policy));
+                //var policy = new AuthorizationPolicyBuilder()
+                //    .RequireAuthenticatedUser()
+                //    .Build();
+                //o.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
-                options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
-                options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
-            })
-            .AddOktaWebApi(new OktaWebApiOptions()
-            {
-                OktaDomain = Configuration["Okta:OktaDomain"],
-                AuthorizationServerId = "default",
-                Audience = "0oaemxcmv2Soj4kd24x6"
-            });
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
+            //    options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
+            //    options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
+            //})
+            //.AddOktaWebApi(new OktaWebApiOptions()
+            //{
+            //    OktaDomain = Configuration["Okta:OktaDomain"],
+            //    AuthorizationServerId = "default",
+            //    Audience = "0oaemxcmv2Soj4kd24x6"
+            //});
 
-            services.AddAuthorization();
+            //services.AddAuthorization();
 
             services.AddControllers();
 
@@ -86,13 +86,13 @@ namespace WebApi
             //use swagger
             app.UseSwaggerServices();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

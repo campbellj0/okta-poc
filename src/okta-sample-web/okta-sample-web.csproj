@@ -5,6 +5,7 @@
     <RootNamespace>okta_aspnetcore_mvc_example</RootNamespace>
     <UserSecretsId>41f7e111-b59e-4626-842d-65230db2ad2e</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>

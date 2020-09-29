@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using okta_aspnetcore_mvc_example.Models;
 using System;
@@ -18,12 +19,14 @@ namespace okta_aspnetcore_mvc_example.Services.Weather
         private readonly HttpClient _client;
         private readonly IHttpContextAccessor _context;
         private readonly IWeatherProvider _provider;
+        private readonly ILogger<WeatherService> _logger;
 
-        public WeatherService(HttpClient client, IHttpContextAccessor context, IWeatherProvider provider)
+        public WeatherService(HttpClient client, IHttpContextAccessor context, IWeatherProvider provider, ILogger<WeatherService> logger)
         {
             _client = client;
             _context = context;
             _provider = provider;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<WeatherForecast>> GetWeatherAsync()
@@ -51,9 +54,9 @@ namespace okta_aspnetcore_mvc_example.Services.Weather
             }
             catch (Exception ex)
             {
-                var e = ex.ToString();
+                _logger.LogError(ex, $"Error in WeatherService.GetWeatherAsync");
             }
-            return null;
+            return new List<WeatherForecast>();
         }
     }
 }

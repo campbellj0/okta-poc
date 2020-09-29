@@ -30,17 +30,17 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         //[EnableCors("AllowAll")]
         public IEnumerable<WeatherForecast> Get()
         {
-            var isAuth = _userService.IsAuthenticated();
+            //var isAuth = _userService.IsAuthenticated();
 
-            var principal = HttpContext.User.Identity as ClaimsIdentity;
+            //var principal = HttpContext.User.Identity as ClaimsIdentity;
 
-            var login = principal.Claims
-                .SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
-                ?.Value;
+            //var login = principal.Claims
+            //    .SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
+            //    ?.Value;
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
