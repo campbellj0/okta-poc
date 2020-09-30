@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Okta.AspNetCore;
 using okta_aspnetcore_mvc_example.Services.Weather;
 using System.Collections.Generic;
@@ -13,9 +14,18 @@ namespace okta_aspnetcore_mvc_example
 {
     public class Startup
     {
+        private readonly ILogger<Startup> _logger;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
+
+            _logger = loggerFactory.CreateLogger<Startup>();
         }
 
         public IConfiguration Configuration { get; }
@@ -23,6 +33,16 @@ namespace okta_aspnetcore_mvc_example
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //read from azure  app config service
+            var oktaDomain = Configuration["okta-sample-web:Settings:Okta:OktaDomain"];
+            _logger.LogDebug($"oktaDomain = {oktaDomain}");
+
+            var clientId = Configuration["okta-sample-web:Settings:Okta:ClientId"];
+            _logger.LogDebug($"clientId = {clientId}");
+
+            var clientSecret = Configuration["okta-sample-web:Settings:Okta:ClientSecret"];
+            _logger.LogDebug($"clientSecret = {clientSecret}");
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -32,9 +52,9 @@ namespace okta_aspnetcore_mvc_example
            .AddOktaMvc(new OktaMvcOptions
            {
                // Replace these values with your Okta configuration
-               OktaDomain = Configuration.GetValue<string>("Okta:OktaDomain"),
-               ClientId = Configuration.GetValue<string>("Okta:ClientId"),
-               ClientSecret = Configuration.GetValue<string>("Okta:ClientSecret"),
+               OktaDomain = oktaDomain,
+               ClientId = clientId,
+               ClientSecret = clientSecret,
                Scope = new List<string> { "openid", "profile", "email" },
            });
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -19,8 +20,24 @@ namespace okta_aspnetcore_mvc_example
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
+                webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    webBuilder.UseStartup<Startup>();
-                });
+                    var settings = config.Build();
+
+                    config.AddAzureAppConfiguration(options =>
+                    {
+                        options.Connect(settings["ConnectionStrings:AppConfig"])
+                                .ConfigureKeyVault(kv =>
+                                {
+                                    kv.SetCredential(new DefaultAzureCredential());
+                                });
+                    });
+                }).UseStartup<Startup>());
+                //webBuilder.ConfigureAppConfiguration(config =>
+                //{
+                //    var settings = config.Build();
+                //    var connection = settings.GetConnectionString("AppConfig");
+                //    config.AddAzureAppConfiguration(connection);
+                //}).UseStartup<Startup>());
     }
 }

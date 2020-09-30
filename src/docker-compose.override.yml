@@ -4,14 +4,17 @@ services:
   okta-sample-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_URLS=http://+:80
-      # - ASPNETCORE_HTTPS_PORT=62513
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      #- ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_HTTPS_PORT=62513
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/okta-sample-api.pfx
+      - AZURE_CLIENT_ID=0ed7ad5a-05dd-4c2b-8b84-2a3833c642bc
+      - AZURE_CLIENT_SECRET=B~O404ihlnqTiW0cUVcTFlWL9Wf-q88.Sd
+      - AZURE_TENANT_ID=3b46dc86-349d-4808-9174-13821020fb16
     ports:
       - "62514:80"
-      # - "62513:443"
+      - "62513:443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/https:ro
@@ -23,7 +26,10 @@ services:
       - ASPNETCORE_HTTPS_PORT=62516
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/okta-sample-web.pfx
-      - WeatherSettings__BaseAddress=http://okta-sample-api
+      - AZURE_CLIENT_ID=0ed7ad5a-05dd-4c2b-8b84-2a3833c642bc
+      - AZURE_CLIENT_SECRET=B~O404ihlnqTiW0cUVcTFlWL9Wf-q88.Sd
+      - AZURE_TENANT_ID=3b46dc86-349d-4808-9174-13821020fb16
+      - WeatherSettings__BaseAddress=https://okta-sample-api
     ports:
       - "62517:80"
       - "62516:443"

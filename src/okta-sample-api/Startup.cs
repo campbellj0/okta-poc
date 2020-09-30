@@ -20,9 +20,17 @@ namespace WebApi
 {
     public class Startup
     {
+        private readonly ILogger<Startup> _logger;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
+
+            _logger = loggerFactory.CreateLogger<Startup>();
         }
 
         public IConfiguration Configuration { get; }
@@ -44,26 +52,37 @@ namespace WebApi
             //use this portion to require authentication for everything
             services.AddMvc(o =>
             {
-                //var policy = new AuthorizationPolicyBuilder()
-                //    .RequireAuthenticatedUser()
-                //    .Build();
-                //o.Filters.Add(new AuthorizeFilter(policy));
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                o.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
-            //    options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
-            //    options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
-            //})
-            //.AddOktaWebApi(new OktaWebApiOptions()
-            //{
-            //    OktaDomain = Configuration["Okta:OktaDomain"],
-            //    AuthorizationServerId = "default",
-            //    Audience = "0oaemxcmv2Soj4kd24x6"
-            //});
+            //read from azure  app config service
+            var oktaDomain = Configuration["okta-sample-api:Settings:Okta:OktaDomain"];
+            _logger.LogDebug($"oktaDomain = {oktaDomain}");
 
-            //services.AddAuthorization();
+            var authorizationServerId = Configuration["okta-sample-api:Settings:Okta:AuthorizationServerId"];
+            _logger.LogDebug($"authorizationServerId = {authorizationServerId}");
+
+            var audience = Configuration["okta-sample-api:Settings:Okta:Audience"];
+            _logger.LogDebug($"audience = {audience}");
+
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
+                options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
+                options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
+            })
+            .AddOktaWebApi(new OktaWebApiOptions()
+            {
+                OktaDomain = oktaDomain,
+                AuthorizationServerId = authorizationServerId,
+                Audience = audience
+            });
+
+            services.AddAuthorization();
 
             services.AddControllers();
 
@@ -86,13 +105,13 @@ namespace WebApi
             //use swagger
             app.UseSwaggerServices();
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

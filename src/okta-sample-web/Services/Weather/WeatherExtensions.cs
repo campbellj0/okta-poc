@@ -71,6 +71,7 @@ namespace okta_aspnetcore_mvc_example.Services.Weather
             {
                 return new HttpClientHandler()
                 {
+                    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
                     AllowAutoRedirect = false
                     //UseDefaultCredentials = true
                 };

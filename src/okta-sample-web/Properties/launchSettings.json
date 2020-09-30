@@ -27,6 +27,11 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "AZURE_CLIENT_SECRET": "B~O404ihlnqTiW0cUVcTFlWL9Wf-q88.Sd",
+        "AZURE_CLIENT_ID": "0ed7ad5a-05dd-4c2b-8b84-2a3833c642bc",
+        "AZURE_TENANT_ID": "3b46dc86-349d-4808-9174-13821020fb16"
+      },
       "publishAllPorts": true,
       "useSSL": true
     }
