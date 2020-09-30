@@ -33,11 +33,5 @@ namespace okta_aspnetcore_mvc_example
                                 });
                     });
                 }).UseStartup<Startup>());
-                //webBuilder.ConfigureAppConfiguration(config =>
-                //{
-                //    var settings = config.Build();
-                //    var connection = settings.GetConnectionString("AppConfig");
-                //    config.AddAzureAppConfiguration(connection);
-                //}).UseStartup<Startup>());
     }
 }
