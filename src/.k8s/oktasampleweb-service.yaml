@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: oktasampleweb
+  name: oktasampleweb
+spec:
+  selector:
+    app: oktasampleweb
+  ports:
+  - name: "http"
+    port: 62517
+    targetPort: 80
+  - name: "https"
+    port: 62516
+    targetPort: 443
+  type: LoadBalancer
+  

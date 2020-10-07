@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: oktasampleapi
+  name: oktasampleapi-config
+data:
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS: https://+:443;http://+:80
+  ASPNETCORE_HTTPS_PORT: "62513"
+  CERTIFICATE_KEY: OktaSampleApi
+  AZURE_CLIENT_ID: 0ed7ad5a-05dd-4c2b-8b84-2a3833c642bc
+  AZURE_CLIENT_SECRET: B~O404ihlnqTiW0cUVcTFlWL9Wf-q88.Sd
+  AZURE_TENANT_ID: 3b46dc86-349d-4808-9174-13821020fb16
+  ASPNETCORE_HOSTINGSTARTUPASSEMBLIES: OktaSampleCommon

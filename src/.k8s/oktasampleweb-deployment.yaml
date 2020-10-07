@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: oktasampleweb
+  name: oktasampleweb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oktasampleweb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: oktasampleweb
+    spec:
+      containers:
+      - env:
+        - name: ConnectionStrings__AppConfig # the application expects to find the Azure App Configuration service connection details in this environment variable
+          valueFrom:
+            secretKeyRef:
+              name: appcfgsecret # the name of the Kubernetes secret containing the data
+              key: APPCFGCONNECTION # the key inside the Kubernetes secret containing the data
+        envFrom:
+          - configMapRef:
+              name: oktasampleweb-config
+        image: acr26025.azurecr.io/okta-sample-web:v1
+        imagePullPolicy: "Always"
+        name: oktasampleweb
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        resources:
+          requests: # minimum resources required
+            cpu: 250m
+            memory: 64Mi
+          limits: # maximum resources allocated
+            cpu: 500m
+            memory: 512Mi
+      restartPolicy: Always
+      serviceAccountName: ""
+status: {}
