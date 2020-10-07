@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: "aksworkshop9986-3bc4"
+    labels:
+        app: "aksworkshop9986-3bc4"
+spec:
+    type: LoadBalancer
+    ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+    selector:
+        app: "aksworkshop9986-3bc4"
